@@ -7,7 +7,7 @@ const AdminProtectedRoute = () => {
     (state: RootState) => state.admin.isAuthenticated
   );
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/admin/login" replace />;
+  return isAuthenticated ? <Outlet /> : <Navigate to="/admin" replace />;
 };
 
 export default AdminProtectedRoute;

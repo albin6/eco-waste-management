@@ -6,18 +6,17 @@ const initialState = storedUser
   ? JSON.parse(storedUser)
   : {
       isAuthenticated: false,
-      token: null,
       userInfo: null,
     };
 
 interface UserState {
   isAuthenticated: boolean;
-  token: string | null;
   userInfo: {
-    id: string;
+    _id: string;
     name: string;
     email: string;
-    profileImage?: string;
+    passoword: string;
+    role: string;
   } | null;
 }
 
@@ -27,16 +26,14 @@ const userSlice = createSlice({
   reducers: {
     loginUser: (
       state,
-      action: PayloadAction<{ token: string; userInfo: UserState["userInfo"] }>
+      action: PayloadAction<{ userInfo: UserState["userInfo"] }>
     ) => {
       state.isAuthenticated = true;
-      state.token = action.payload.token;
       state.userInfo = action.payload.userInfo;
       localStorage.setItem("user", JSON.stringify(state)); // Save to localStorage
     },
     logoutUser: (state) => {
       state.isAuthenticated = false;
-      state.token = null;
       state.userInfo = null;
       localStorage.removeItem("user"); // Remove from localStorage
     },

@@ -7,7 +7,7 @@ const UserProtectedRoute = () => {
     (state: RootState) => state.user.isAuthenticated
   );
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+  return isAuthenticated ? <Outlet /> : <Navigate to="/" replace />;
 };
 
 export default UserProtectedRoute;

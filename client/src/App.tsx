@@ -5,6 +5,7 @@ import UserProtectedRoute from "./proteted/UserProtectedRoute";
 import AdminProtectedRoute from "./proteted/AdminProtectedRoute";
 import UserSignup from "./components/user/UserSignup";
 import { Toaster } from "sonner";
+import ClientDashboard from "./components/user/ClientDashboard";
 
 function App() {
   return <AppLayout />;
@@ -21,11 +22,11 @@ const AppLayout = () => {
         {/* <Route path="/" element={<HomePage />} /> */}
         <Route path="/" element={<UserLogin />} />
         <Route path="/signup" element={<UserSignup />} />
-        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminLogin />} />
 
         {/* Protected User Routes */}
         <Route element={<UserProtectedRoute />}>
-          {/* <Route path="/user/dashboard" element={<UserDashboard />} /> */}
+          <Route path="/user/dashboard" element={<ClientDashboard />} />
         </Route>
 
         {/* Protected Admin Routes */}

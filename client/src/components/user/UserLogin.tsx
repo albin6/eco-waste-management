@@ -5,12 +5,16 @@ import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useFormik } from "formik";
 import { loginSchema } from "@/utils/loginValidation";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { axiosInstance } from "@/api/axiosInstance";
 import { toast } from "sonner";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginUser } from "@/redux/slices/userSlice";
 
 export default function UserLogin() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data: { email: string; password: string }) => {
@@ -19,7 +23,9 @@ export default function UserLogin() {
         email: data.email,
         password: data.password,
       });
-      toast.success(response.data.message);
+      dispatch(loginUser({ userInfo: response.data.user }));
+      navigate("/user/dashboard");
+      toast.success("Login successfully");
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {

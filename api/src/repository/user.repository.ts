@@ -3,7 +3,7 @@ import { User } from "../types/User";
 
 export class UserRepository {
   async save(data: User) {
-    await UserModel.create(data);
+    return await UserModel.create(data);
   }
 
   async findByEmail(email: string) {

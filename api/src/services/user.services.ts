@@ -1,11 +1,14 @@
 import { UserRepository } from "../repository/user.repository";
+import { WalletRepository } from "../repository/wallet.repository";
 import { User } from "../types/User";
 import { AppError } from "../utils/AppError";
 
 export class UserServices {
   private userRepository: UserRepository;
+  private walletRepostory: WalletRepository;
   constructor() {
     this.userRepository = new UserRepository();
+    this.walletRepostory = new WalletRepository();
   }
 
   async createNewUser(data: User) {
@@ -17,7 +20,8 @@ export class UserServices {
       throw new AppError("Email Already Exists", 409);
     }
 
-    await this.userRepository.save(data);
+    const user = await this.userRepository.save(data);
+    await this.walletRepostory.createWallet(user._id);
   }
 
   async loginUser(data: { email: string; password: string }) {

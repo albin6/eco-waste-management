@@ -17,6 +17,7 @@ export default function UserSignup() {
         name: values.name,
         email: values.email,
         password: values.password,
+        role: values.role,
       });
       toast.success(response.data.message);
     } catch (error) {
@@ -32,6 +33,7 @@ export default function UserSignup() {
       email: "",
       password: "",
       confirmPassword: "",
+      role: "",
     },
     validationSchema: signupSchema,
     onSubmit: (values, actions) => {
@@ -42,6 +44,7 @@ export default function UserSignup() {
           email: "",
           password: "",
           confirmPassword: "",
+          role: "",
         },
       });
       navigate("/");
@@ -107,6 +110,23 @@ export default function UserSignup() {
                   {formik.errors.confirmPassword}
                 </p>
               )}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="role">Account Type</Label>
+            <select
+              id="role"
+              className="border rounded p-2 w-full"
+              {...formik.getFieldProps("role")}
+            >
+              <option value="" disabled>
+                Select account type
+              </option>
+              <option value="master">Master</option>
+              <option value="sub">Sub</option>
+            </select>
+            {formik.touched.role && formik.errors.role && (
+              <p className="text-sm text-red-500">{formik.errors.role}</p>
+            )}
           </div>
           <Button type="submit" className="w-full">
             Sign Up
