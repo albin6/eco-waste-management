@@ -26,6 +26,7 @@ export const AddUserModal: React.FC<AddUserModalProps> = ({
 
     onSubmit: (values, actions) => {
       onSubmit(values);
+      onClose();
       actions.resetForm({
         values: {
           name: "",

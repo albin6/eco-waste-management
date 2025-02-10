@@ -95,14 +95,7 @@ export default function UserLogin() {
               <p className="text-sm text-red-500">{formik.errors.password}</p>
             )}
           </div>
-          <div className="flex justify-end">
-            <a
-              href="/forgotPassword"
-              className="text-sm font-medium text-primary hover:underline"
-            >
-              Forgot password?
-            </a>
-          </div>
+
           <Button type="submit" className="w-full">
             Log in
           </Button>
