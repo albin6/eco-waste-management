@@ -1,6 +1,7 @@
 import React from "react";
 import PaymentComponent from "../payment/RazorpayPayment";
 import { User } from "@/types";
+import { Button } from "../ui/button";
 
 interface PaymentConfirmationModalProps {
   isOpen: boolean;
@@ -38,11 +39,13 @@ const PaymentConfirmationModal: React.FC<PaymentConfirmationModalProps> = ({
             Cancel
           </button>
 
-          <PaymentComponent
-            amount={amount}
-            onConfirm={onConfirm}
-            user={recipient}
-          />
+          <Button>
+            <PaymentComponent
+              amount={amount}
+              onConfirm={onConfirm}
+              user={recipient}
+            />
+          </Button>
         </div>
       </div>
     </div>

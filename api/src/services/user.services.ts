@@ -19,7 +19,7 @@ export class UserServices {
     if (isUserWithEmailExists) {
       throw new AppError("Email Already Exists", 409);
     }
-
+    console.log("create new user=>", data);
     const wallet = await this.walletRepostory.createWallet();
     const user = await this.userRepository.createUser({
       name: data.name,
@@ -77,7 +77,7 @@ export class UserServices {
 
     const user = await this.userRepository.createUser({
       name: data.name,
-      email: data.name,
+      email: data.email,
       password: data.password,
       role: data.role,
       wallet: existingUser?.wallet!,

@@ -1,5 +1,4 @@
 import { UserModel } from "../models/user.model";
-import { User } from "../types/User";
 
 export class UserRepository {
   async createUser(data: {
