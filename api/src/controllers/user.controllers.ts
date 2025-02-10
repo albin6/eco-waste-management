@@ -81,4 +81,35 @@ export class UserController {
       }
     }
   }
+
+  async addNewUser(req: Request, res: Response) {
+    try {
+      const data = req.body as {
+        name: string;
+        email: string;
+        password: string;
+        role: string;
+        userId: any;
+      };
+
+      await this.userService.addNewUserUnderAUser(data);
+
+      res
+        .status(200)
+        .json({ success: true, message: "User created successfully" });
+    } catch (error) {
+      if (error instanceof Error) {
+        const statusCode = (error as any).status || 500; // Ensure status exists
+        res.status(statusCode).json({
+          success: false,
+          message: error.message || "Internal Server Error",
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "An unexpected error occurred",
+        });
+      }
+    }
+  }
 }

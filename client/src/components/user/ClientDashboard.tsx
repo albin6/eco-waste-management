@@ -9,13 +9,20 @@ import { axiosInstance } from "@/api/axiosInstance";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { Transaction } from "@/types";
+import { Button } from "../ui/button";
+import { AddUserModal } from "../modal/AddUserModal";
+import { toast } from "sonner";
+import axios from "axios";
 
 const ClientDashboard: React.FC = () => {
   const [balance, setBalance] = useState<number>(0);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [refetch, setRefetch] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const userId = useSelector((state: RootState) => state.user.userInfo._id);
+  const user = useSelector((state: RootState) => state.user.userInfo);
 
   async function getAccountBalance() {
     try {
@@ -45,19 +52,19 @@ const ClientDashboard: React.FC = () => {
   useEffect(() => {
     getAccountBalance();
     getTransactions();
-  }, []);
+  }, [refetch, setRefetch]);
 
   const handleAddMoney = async (
     amount: number,
     razorpay_payment_id: string
   ) => {
     try {
-      const response = await axiosInstance.put("/wallet/balance", {
-        userId,
-        balance: amount,
-      });
+      // const response = await axiosInstance.put("/wallet/balance", {
+      //   userId,
+      //   balance: amount,
+      // });
 
-      const responseTransaction = await axiosInstance.post("/transactions", {
+      await axiosInstance.post("/transactions", {
         transactionId: razorpay_payment_id,
         userId,
         to: 9876543210,
@@ -65,33 +72,50 @@ const ClientDashboard: React.FC = () => {
         transactionType: "credit",
       });
 
-      console.log(response.data);
-      if (response.data.success) {
-        getAccountBalance();
-      }
-      if (responseTransaction.data.success) {
-      }
+      setRefetch((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleSendMoney = (amount: number) => {
-    // if (balance >= amount) {
-    //   setBalance((prevBalance) => prevBalance - amount);
-    //   const newTransaction: Transaction = {
-    //     id: Date.now(),
-    //     date: new Date().toISOString().split("T")[0],
-    //     description: "Sent Money",
-    //     amount: -amount,
-    //   };
-    //   setTransactions((prevTransactions) => [
-    //     newTransaction,
-    //     ...prevTransactions,
-    //   ]);
-    // } else {
-    //   alert("Insufficient balance");
-    // }
+  const submitRegister = async (user: {
+    name: string;
+    email: string;
+    password: string;
+  }) => {
+    try {
+      const response = await axiosInstance.post("/register/new-user", {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        role: "sub",
+        userId: userId,
+      });
+      toast.success(response.data.message);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+      }
+    }
+  };
+
+  const handleSendMoney = async (
+    amount: number,
+    razorpay_payment_id: string
+  ) => {
+    try {
+      await axiosInstance.post("/transactions", {
+        transactionId: razorpay_payment_id,
+        userId,
+        to: 9876543210,
+        amount: amount * -1,
+        transactionType: "debit",
+      });
+
+      setRefetch((prev) => !prev);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (isLoading) {
@@ -126,7 +150,18 @@ const ClientDashboard: React.FC = () => {
               </CardContent>
             </Card>
           </div>
+          {user.role == "master" && (
+            <div className="flex justify-end mt-4">
+              <Button onClick={() => setIsModalOpen(true)}>Add Members</Button>
+            </div>
+          )}
         </div>
+
+        <AddUserModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={submitRegister}
+        />
       </div>
     </>
   );

@@ -21,9 +21,12 @@ export class Routes {
       this.userController.createNewUser(req, res)
     );
 
-    this.router.post("/login", (req: Request, res: Response) =>
-      this.userController.loginUser(req, res)
-    );
+    this.router.post("/register/new-user", (req: Request, res: Response) =>
+      this.userController.addNewUser(req, res)
+    ),
+      this.router.post("/login", (req: Request, res: Response) =>
+        this.userController.loginUser(req, res)
+      );
 
     this.router.get("/details", (req: Request, res: Response) =>
       this.userController.getUserDetails(req, res)

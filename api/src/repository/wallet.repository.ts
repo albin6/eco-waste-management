@@ -1,17 +1,17 @@
 import { WalletModel } from "../models/wallet.model";
 
 export class WalletRepository {
-  async createWallet(userId: any) {
-    await WalletModel.create({ userId });
+  async createWallet() {
+    return await WalletModel.create({ balance: 0 });
   }
 
-  async findWalletByUserId(userId: any) {
-    return await WalletModel.findOne({ userId });
+  async findWalletById(id: any) {
+    return await WalletModel.findById(id);
   }
 
-  async findWalletByUserAndUpdateBalance(userId: any, balance: number) {
-    await WalletModel.findOneAndUpdate(
-      { userId },
+  async findWalletByIdAndUpdateBalance(id: any, balance: number) {
+    await WalletModel.findByIdAndUpdate(
+      id,
       { $inc: { balance } },
       { new: true }
     );

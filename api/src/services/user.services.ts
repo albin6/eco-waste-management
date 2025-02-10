@@ -20,8 +20,16 @@ export class UserServices {
       throw new AppError("Email Already Exists", 409);
     }
 
-    const user = await this.userRepository.save(data);
-    await this.walletRepostory.createWallet(user._id);
+    const wallet = await this.walletRepostory.createWallet();
+    const user = await this.userRepository.createUser({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      role: data.role!,
+      wallet: wallet._id,
+    });
+
+    await user.save();
   }
 
   async loginUser(data: { email: string; password: string }) {
@@ -48,5 +56,35 @@ export class UserServices {
     }
 
     return user;
+  }
+
+  async addNewUserUnderAUser(data: {
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+    userId: any;
+  }) {
+    const isUserWithEmailExists = await this.userRepository.findByEmail(
+      data.email
+    );
+
+    if (isUserWithEmailExists) {
+      throw new AppError("Email Already Exists", 409);
+    }
+
+    const existingUser = await this.userRepository.find(data.userId);
+
+    const user = await this.userRepository.createUser({
+      name: data.name,
+      email: data.name,
+      password: data.password,
+      role: data.role,
+      wallet: existingUser?.wallet!,
+    });
+
+    user.wallet = existingUser?.wallet!;
+
+    await user.save();
   }
 }

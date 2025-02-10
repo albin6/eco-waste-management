@@ -1,11 +1,10 @@
 import { TransactionModel } from "../models/transaction.model";
-import { Transaction } from "../types/Transaction";
 
 export class TransactionRepository {
-  async createTransaction(data: Transaction) {
+  async createTransaction(data: any) {
     await TransactionModel.create(data);
   }
-  async getTransactionOfUser(userId: any) {
-    return await TransactionModel.find({ userId }).populate("userId");
+  async getTransactionOfUser(wallet: any) {
+    return await TransactionModel.find({ wallet }).populate("userId");
   }
 }

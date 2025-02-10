@@ -33,10 +33,13 @@ const Header: React.FC = () => {
 
           {/* Navigation */}
           <nav className="hidden md:flex space-x-4">
-            <Link to="/dashboard" className="text-gray-600 hover:text-gray-800">
+            {/* <Link
+              to="/user/dashboard"
+              className="text-gray-600 hover:text-gray-800"
+            >
               Dashboard
-            </Link>
-            <Link to="/services" className="text-gray-600 hover:text-gray-800">
+            </Link> */}
+            {/* <Link to="/services" className="text-gray-600 hover:text-gray-800">
               Services
             </Link>
             <Link to="/reports" className="text-gray-600 hover:text-gray-800">
@@ -44,7 +47,7 @@ const Header: React.FC = () => {
             </Link>
             <Link to="/support" className="text-gray-600 hover:text-gray-800">
               Support
-            </Link>
+            </Link> */}
           </nav>
 
           {/* User Profile */}
@@ -76,8 +79,8 @@ const Header: React.FC = () => {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
+                {/* <DropdownMenuItem>Profile</DropdownMenuItem> */}
+                {/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
                 <DropdownMenuItem onClick={() => dispatch(logoutUser())}>
                   Log out
                 </DropdownMenuItem>

@@ -17,7 +17,7 @@ export default function UserSignup() {
         name: values.name,
         email: values.email,
         password: values.password,
-        role: values.role,
+        role: "master",
       });
       toast.success(response.data.message);
     } catch (error) {
@@ -33,7 +33,6 @@ export default function UserSignup() {
       email: "",
       password: "",
       confirmPassword: "",
-      role: "",
     },
     validationSchema: signupSchema,
     onSubmit: (values, actions) => {
@@ -44,7 +43,6 @@ export default function UserSignup() {
           email: "",
           password: "",
           confirmPassword: "",
-          role: "",
         },
       });
       navigate("/");
@@ -111,7 +109,7 @@ export default function UserSignup() {
                 </p>
               )}
           </div>
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label htmlFor="role">Account Type</Label>
             <select
               id="role"
@@ -127,7 +125,7 @@ export default function UserSignup() {
             {formik.touched.role && formik.errors.role && (
               <p className="text-sm text-red-500">{formik.errors.role}</p>
             )}
-          </div>
+          </div> */}
           <Button type="submit" className="w-full">
             Sign Up
           </Button>

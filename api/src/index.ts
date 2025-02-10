@@ -15,11 +15,6 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.get("/", (req: Request, res: Response) => {
-  res.json({ message: "Express + TypeScript Server" });
-});
-
 app.use("/api/v_1", new Routes().router);
 
 // Start server

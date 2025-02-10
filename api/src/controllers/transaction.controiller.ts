@@ -9,6 +9,7 @@ export class TransactionController {
   async createTransaction(req: Request, res: Response): Promise<void> {
     try {
       const { transactionId, userId, to, amount, transactionType } = req.body;
+      console.log("amount =>", amount);
 
       await this.transactionServices.createTransaction({
         transactionId,

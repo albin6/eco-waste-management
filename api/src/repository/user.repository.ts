@@ -2,8 +2,20 @@ import { UserModel } from "../models/user.model";
 import { User } from "../types/User";
 
 export class UserRepository {
-  async save(data: User) {
-    return await UserModel.create(data);
+  async createUser(data: {
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+    wallet: any;
+  }) {
+    return await UserModel.create({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      role: data.role,
+      wallet: data.wallet,
+    });
   }
 
   async findByEmail(email: string) {

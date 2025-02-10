@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
     enum: ["master", "admin", "sub"],
     default: "user",
   },
+  wallet: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Wallet",
+  },
 });
 
 export const UserModel = mongoose.model("User", userSchema);

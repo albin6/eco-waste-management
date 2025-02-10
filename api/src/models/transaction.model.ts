@@ -7,6 +7,7 @@ export interface ITransaction extends Document {
   amount: number;
   transactionType: "debit" | "credit";
   date: Date;
+  wallet: mongoose.Schema.Types.ObjectId;
 }
 
 const transactionSchema = new Schema<ITransaction>({
@@ -35,6 +36,10 @@ const transactionSchema = new Schema<ITransaction>({
   date: {
     type: Date,
     default: Date.now,
+  },
+  wallet: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Wallet",
   },
 });
 
